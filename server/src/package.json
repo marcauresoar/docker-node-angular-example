@@ -1,0 +1,14 @@
+{
+  "name": "app_server",
+  "version": "1.0.0",
+  "description": "Node.js server",
+  "author": "Marco A. Soares <maurelio@avenuecode.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1",
+    "nodemon": "^1.12.1"
+  }
+}

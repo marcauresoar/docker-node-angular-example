@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app_server:
+    build: ./server
+    container_name: app_server
+    ports:
+      - "49160:8080"
+    volumes:
+      - ./server/src:/usr/src/app
+  app_client:
+    build: ./client
+    container_name: app_client
+    ports:
+      - "49161:4200"
+    volumes:
+      - ./client/src:/usr/src/app
+    depends_on:
+      - app_server

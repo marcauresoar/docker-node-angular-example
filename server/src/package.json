@@ -8,7 +8,9 @@
     "start": "nodemon server.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.1",
+    "express-fileupload": "^0.3.0",
     "nodemon": "^1.12.1"
   }
 }

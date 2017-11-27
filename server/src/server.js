@@ -3,7 +3,10 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
+const request = require('request');
+
 const accessories = require('./accessories.js');
+const core = require('./core.js');
 
 const PORT = 8080;
 const HOST = '0.0.0.0';
@@ -47,6 +50,14 @@ app.post('/upload', function(req, res) {
   if (!req.files || !req.files.inputFile)
     return res.status(400).send('No files were uploaded.');
 
+  //console.log(req.body);
+  let brand = req.body.brand;
+  let model = req.body.model;
+  let versions = req.body.versions;
+
+  let url = core.getFilePathName(brand, model);
+  //console.log(core.getFilePathName(brand, model));
+
   // The name of the input field (i.e. "inputFile") is used to retrieve the uploaded file
   let sampleFile = req.files.inputFile;
 
@@ -57,7 +68,14 @@ app.post('/upload', function(req, res) {
       return res.status(500).send(err);
 
     accessories.processAccessories(fileName, (dataResult) => {
-      res.status(200).send(dataResult);
+      //res.status(200).send(dataResult);
+      request(url, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          accessories.updateAccessories(JSON.parse(body), dataResult, versions, (finalJson) => {
+            res.send(finalJson);
+          });
+        }
+      });
     });
   });
 });
